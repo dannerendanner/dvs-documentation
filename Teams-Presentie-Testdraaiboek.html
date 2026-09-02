@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Stap-voor-stap testdraaiboek voor de online les via Teams: van klas en rooster tot de aanwezigheid in de presentielijst. Geen technische kennis nodig.">
+<title>Teams-presentie testdraaiboek</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Serif:ital@0;1&display=swap">
+
+<style>
+  :root {
+    --bg: #e9edf1;
+    --surface: #ffffff;
+    --surface-2: #f4f7f9;
+    --ink: #16202b;
+    --muted: #56616f;
+    --faint: #7c8797;
+    --line: #dbe2e9;
+    --line-strong: #c6cfd9;
+
+    --accent: #0e6e79;
+    --accent-ink: #0a5460;
+    --accent-soft: #d9edef;
+
+    --ok: #1f7a4d;
+    --ok-soft: #d9efe2;
+    --warn: #9a5a00;
+    --warn-soft: #f6e8cf;
+    --danger: #b1332c;
+    --danger-soft: #f6dcd9;
+
+    --shadow: 0 1px 2px rgba(20, 30, 45, .04), 0 8px 24px rgba(20, 30, 45, .06);
+    --radius: 12px;
+    --maxw: 60rem;
+
+    --font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    --font-serif: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0f141a;
+      --surface: #161d26;
+      --surface-2: #1b232d;
+      --ink: #e7edf3;
+      --muted: #a0adbd;
+      --faint: #7d8a99;
+      --line: #28323d;
+      --line-strong: #384352;
+
+      --accent: #45bcc7;
+      --accent-ink: #7ed8e0;
+      --accent-soft: #123138;
+
+      --ok: #56c98a;
+      --ok-soft: #14352a;
+      --warn: #e2a54a;
+      --warn-soft: #3a2e14;
+      --danger: #ef6b63;
+      --danger-soft: #3a1e1c;
+
+      --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 10px 30px rgba(0, 0, 0, .35);
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --bg: #0f141a;
+    --surface: #161d26;
+    --surface-2: #1b232d;
+    --ink: #e7edf3;
+    --muted: #a0adbd;
+    --faint: #7d8a99;
+    --line: #28323d;
+    --line-strong: #384352;
+
+    --accent: #45bcc7;
+    --accent-ink: #7ed8e0;
+    --accent-soft: #123138;
+
+    --ok: #56c98a;
+    --ok-soft: #14352a;
+    --warn: #e2a54a;
+    --warn-soft: #3a2e14;
+    --danger: #ef6b63;
+    --danger-soft: #3a1e1c;
+
+    --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 10px 30px rgba(0, 0, 0, .35);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  .wrap {
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: clamp(1.25rem, 4vw, 3.5rem) clamp(1rem, 4vw, 2rem) 5rem;
+  }
+
+  /* ---------- Header ---------- */
+  header.masthead {
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 1.5rem;
+    margin-bottom: 2.5rem;
+  }
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: .72rem;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--accent-ink);
+    margin: 0 0 .9rem;
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    flex-wrap: wrap;
+  }
+  .eyebrow .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); display: inline-block; }
+  h1 {
+    font-size: clamp(1.9rem, 5vw, 3rem);
+    line-height: 1.05;
+    letter-spacing: -.02em;
+    font-weight: 700;
+    margin: 0 0 1rem;
+    text-wrap: balance;
+  }
+  .lead {
+    font-family: var(--font-serif);
+    font-size: clamp(1.05rem, 2.2vw, 1.28rem);
+    line-height: 1.55;
+    color: var(--muted);
+    max-width: 46rem;
+    margin: 0;
+  }
+  .lead em { color: var(--ink); font-style: italic; }
+
+  /* ---------- Meta strip ---------- */
+  .meta-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin: 2rem 0 1rem;
+  }
+  .meta-cell { background: var(--surface); padding: 1rem 1.15rem; }
+  .meta-cell .k {
+    font-family: var(--font-mono);
+    font-size: .68rem;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--faint);
+    margin: 0 0 .35rem;
+  }
+  .meta-cell .v { font-weight: 600; font-size: .96rem; }
+  .meta-cell .v small { display: block; font-weight: 400; color: var(--muted); font-size: .82rem; margin-top: .15rem; }
+
+  /* ---------- Roles ---------- */
+  .roles {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    gap: .85rem;
+    margin: 1rem 0 0;
+  }
+  .role {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--accent);
+    border-radius: 10px;
+    padding: .95rem 1.1rem;
+  }
+  .role .r-label {
+    font-family: var(--font-mono);
+    font-size: .68rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--faint);
+    margin: 0 0 .3rem;
+  }
+  .role .r-name { font-weight: 600; }
+  .role .r-mail { font-family: var(--font-mono); font-size: .85rem; color: var(--accent-ink); word-break: break-all; }
+  .role input[type="text"] {
+    width: 100%;
+    margin-top: .35rem;
+    font-family: var(--font-mono);
+    font-size: .85rem;
+    color: var(--accent-ink);
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: .35rem .45rem;
+  }
+  .role input[type="text"]::placeholder { color: var(--faint); }
+  .role input[type="text"]:focus { border-color: var(--accent); outline: none; }
+  .fill-hint { margin-top: .7rem; font-size: .82rem; color: var(--muted); }
+
+  /* "already there? tick it off" hint inside a step */
+  .reuse {
+    margin: .45rem 0 .1rem;
+    font-size: .87rem;
+    color: var(--ok);
+    background: var(--ok-soft);
+    border-radius: 7px;
+    padding: .4rem .6rem;
+    display: flex;
+    gap: .5rem;
+    align-items: baseline;
+  }
+  .reuse::before { content: "\2713"; font-weight: 700; flex: 0 0 auto; }
+  .reuse strong { color: var(--ok); }
+
+  /* counterpart: make this one fresh, even if something similar exists */
+  .reuse.fresh { color: var(--warn); background: var(--warn-soft); }
+  .reuse.fresh::before { content: "+"; }
+  .reuse.fresh strong { color: var(--warn); }
+
+  /* ---------- Section / phases ---------- */
+  section { margin-top: 3rem; }
+  .sec-head {
+    display: flex;
+    align-items: baseline;
+    gap: .9rem;
+    margin-bottom: 1.25rem;
+    padding-bottom: .6rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .sec-num {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: .95rem;
+    color: var(--surface);
+    background: var(--accent);
+    width: 2rem; height: 2rem;
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    transform: translateY(.1rem);
+  }
+  .sec-head h2 {
+    font-size: clamp(1.25rem, 3vw, 1.55rem);
+    letter-spacing: -.01em;
+    margin: 0;
+    font-weight: 600;
+    text-wrap: balance;
+  }
+  .sec-head .sub { color: var(--faint); font-size: .85rem; font-family: var(--font-mono); margin-left: auto; white-space: nowrap; }
+
+  .steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .7rem; }
+  .step {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 1rem 1.15rem;
+    display: grid;
+    grid-template-columns: 1.4rem 1fr;
+    gap: .1rem .85rem;
+    box-shadow: var(--shadow);
+  }
+  .step > label { display: contents; cursor: pointer; }
+  .step input[type="checkbox"] {
+    grid-row: 1;
+    grid-column: 1;
+    width: 1.15rem; height: 1.15rem;
+    margin: .28rem 0 0;
+    accent-color: var(--accent);
+    cursor: pointer;
+    flex: 0 0 auto;
+  }
+  .step .body { grid-column: 2; }
+  .step .title { font-weight: 600; margin: 0 0 .15rem; }
+  .step .desc { color: var(--muted); font-size: .93rem; margin: .25rem 0 0; }
+  .step.done .title { text-decoration: line-through; text-decoration-color: var(--line-strong); color: var(--muted); }
+
+  /* ---------- Navigation path (breadcrumb) ---------- */
+  .navpath {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: .3rem .12rem;
+    margin: .6rem 0 0;
+    font-size: .82rem;
+  }
+  .navpath .seg {
+    font-weight: 500;
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: .18rem .52rem;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .navpath .seg.menu {
+    color: var(--accent-ink);
+    background: var(--accent-soft);
+    border-color: color-mix(in srgb, var(--accent) 30%, transparent);
+    font-weight: 600;
+  }
+  .navpath .seg.cur { color: var(--ink); border-color: var(--line-strong); font-weight: 600; }
+  .navpath .sep { color: var(--faint); padding: 0 .1rem; }
+
+  .fields {
+    margin: .6rem 0 0;
+    padding: .7rem .85rem;
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    font-size: .88rem;
+  }
+  .fields .fl {
+    font-family: var(--font-mono);
+    font-size: .64rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--faint);
+    margin: 0 0 .45rem;
+  }
+  .fields ul { margin: 0; padding-left: 1.05rem; }
+  .fields li { margin: .2rem 0; }
+
+  /* on-screen label / button chip */
+  .ui {
+    font-weight: 600;
+    color: var(--ink);
+    background: var(--surface);
+    border: 1px solid var(--line-strong);
+    border-radius: 5px;
+    padding: .02em .38em;
+    font-size: .9em;
+    white-space: nowrap;
+  }
+  .field { font-weight: 600; color: var(--ink); }
+
+  /* what to report */
+  .cov-notes {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: .9rem 1.1rem;
+    margin-top: .6rem;
+  }
+  .cov-notes ul { margin: 0; padding-left: 1.1rem; color: var(--muted); font-size: .92rem; }
+  .cov-notes li { margin: .3rem 0; }
+  .cov-notes strong { color: var(--ink); }
+
+  /* ---------- Callouts ---------- */
+  .callout {
+    border-radius: 10px;
+    padding: .95rem 1.1rem;
+    margin: 1.2rem 0 0;
+    border: 1px solid var(--line);
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: .2rem .75rem;
+    font-size: .92rem;
+  }
+  .callout .ci { font-family: var(--font-mono); font-weight: 600; font-size: .78rem; grid-row: 1; }
+  .callout .ct { grid-column: 2; }
+  .callout p { margin: .3rem 0 0; }
+  .callout p:first-child { margin-top: 0; }
+  .callout.tip { background: var(--accent-soft); border-color: color-mix(in srgb, var(--accent) 30%, transparent); }
+  .callout.tip .ci { color: var(--accent-ink); }
+  .callout.warn { background: var(--warn-soft); border-color: color-mix(in srgb, var(--warn) 35%, transparent); }
+  .callout.warn .ci { color: var(--warn); }
+  .callout.danger { background: var(--danger-soft); border-color: color-mix(in srgb, var(--danger) 35%, transparent); }
+  .callout.danger .ci { color: var(--danger); }
+  .callout .ui { background: color-mix(in srgb, var(--surface) 70%, transparent); }
+
+  /* ---------- Verification ---------- */
+  .verify {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-top: 3px solid var(--ok);
+    border-radius: 12px;
+    padding: 1.25rem 1.4rem 1.4rem;
+    box-shadow: var(--shadow);
+  }
+  .verify ul { list-style: none; margin: .5rem 0 0; padding: 0; display: flex; flex-direction: column; gap: .5rem; }
+  .verify li { display: flex; gap: .7rem; align-items: flex-start; }
+  .verify input[type="checkbox"] { width: 1.15rem; height: 1.15rem; margin-top: .18rem; accent-color: var(--ok); cursor: pointer; }
+  .verify label { cursor: pointer; }
+  .verify li.done label { text-decoration: line-through; text-decoration-color: var(--line-strong); color: var(--muted); }
+
+  /* ---------- Pitfalls ---------- */
+  .pit { display: flex; flex-direction: column; gap: .6rem; }
+  .pit .item {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: .1rem .8rem;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--danger);
+    border-radius: 9px;
+    padding: .8rem 1rem;
+  }
+  .pit .item .pn { font-family: var(--font-mono); color: var(--danger); font-weight: 600; font-size: .85rem; }
+  .pit .item .pt strong { display: block; margin-bottom: .1rem; }
+  .pit .item .pt { grid-column: 2; font-size: .92rem; color: var(--muted); }
+  .pit .item .pt strong { color: var(--ink); }
+
+  /* ---------- Progress bar ---------- */
+  .progress-wrap {
+    position: sticky; top: 0; z-index: 5;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    padding: .55rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .progress-inner { max-width: var(--maxw); margin: 0 auto; padding: 0 clamp(1rem, 4vw, 2rem); display: flex; align-items: center; gap: .8rem; }
+  .bar { flex: 1; height: 6px; background: var(--line); border-radius: 99px; overflow: hidden; }
+  .bar > span { display: block; height: 100%; width: 0%; background: var(--accent); border-radius: 99px; transition: width .3s ease; }
+  @media (prefers-reduced-motion: reduce) { .bar > span { transition: none; } }
+  .progress-inner .pct { font-family: var(--font-mono); font-size: .8rem; color: var(--muted); min-width: 3.2rem; text-align: right; font-variant-numeric: tabular-nums; }
+  .progress-inner .lbl { font-family: var(--font-mono); font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; color: var(--faint); }
+
+  a { color: var(--accent-ink); }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+
+  hr.soft { border: none; border-top: 1px solid var(--line); margin: 3rem 0 0; }
+
+  .foot { margin-top: 2.5rem; color: var(--faint); font-size: .82rem; font-family: var(--font-mono); }
+
+  .theme-toggle {
+    font-family: var(--font-mono);
+    font-size: .72rem;
+    letter-spacing: .06em;
+    color: var(--muted);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    padding: .28rem .6rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    line-height: 1;
+    white-space: nowrap;
+  }
+  .theme-toggle:hover { border-color: var(--line-strong); color: var(--ink); }
+
+  @media (max-width: 34rem) {
+    .sec-head { flex-wrap: wrap; }
+    .sec-head .sub { margin-left: 0; width: 100%; }
+    .progress-inner .lbl { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-wrap">
+  <div class="progress-inner">
+    <span class="lbl">Voortgang</span>
+    <div class="bar"><span id="barfill"></span></div>
+    <span class="pct" id="pct">0%</span>
+    <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Wissel licht/donker thema">
+      <span id="theme-icon">◐</span><span id="theme-label">Thema</span>
+    </button>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <p class="eyebrow"><span class="dot"></span> Testdraaiboek &middot; online les via Teams &middot; presentie</p>
+    <h1>Teams-presentie testdraaiboek</h1>
+    <p class="lead">Test van de Teams-koppeling van begin tot eind, helemaal in de testomgeving en volledig met de gewone schermen: van klas en rooster tot een online les die je echt houdt, en de aanwezigheid die daarna automatisch in de presentielijst staat.</p>
+    <p class="lead" style="font-size:1rem">Je hoeft niets te programmeren of te installeren. Werk de stappen op volgorde af en vink ze af terwijl je bezig bent; onderaan staat waaraan je ziet of de test geslaagd is.</p>
+
+    <div class="meta-grid">
+      <div class="meta-cell">
+        <p class="k">Doel</p>
+        <p class="v">Aanwezigheid uit een online les<small>komt correct per deelnemer in de presentielijst</small></p>
+      </div>
+      <div class="meta-cell">
+        <p class="k">Uitgangspunt</p>
+        <p class="v">Bestaat het al? Gebruik het<small>wat er nog niet is, maak je zelf aan</small></p>
+      </div>
+      <div class="meta-cell">
+        <p class="k">Klas</p>
+        <p class="v">Een eigen testklas<small>naam kies je zelf, bijv. "brugklas test"</small></p>
+      </div>
+      <div class="meta-cell">
+        <p class="k">Rooster</p>
+        <p class="v">Online les &middot; vandaag<small>zodat je de les meteen kunt houden</small></p>
+      </div>
+    </div>
+
+    <div class="roles">
+      <div class="role">
+        <p class="r-label">Docent</p>
+        <p class="r-name">Medewerker &middot; groep Docent</p>
+        <input type="text" data-f="mail-docent" placeholder="e-mailadres docent" aria-label="E-mailadres van de docent">
+      </div>
+      <div class="role">
+        <p class="r-label">Deelnemer 1</p>
+        <p class="r-name">Deelnemer met traject</p>
+        <input type="text" data-f="mail-deelnemer1" placeholder="e-mailadres deelnemer 1" aria-label="E-mailadres van deelnemer 1">
+      </div>
+      <div class="role">
+        <p class="r-label">Deelnemer 2</p>
+        <p class="r-name">Deelnemer met traject</p>
+        <input type="text" data-f="mail-deelnemer2" placeholder="e-mailadres deelnemer 2" aria-label="E-mailadres van deelnemer 2">
+      </div>
+    </div>
+    <p class="fill-hint">Vul hierboven de drie e-mailadressen in die je gaat gebruiken. Je hebt voor elke rol een eigen Teams-account nodig, want je moet met de twee deelnemers echt de vergadering in. De ingevulde adressen blijven bewaard zolang je dit bestand in dezelfde browser opent.</p>
+  </header>
+
+  <div class="callout danger">
+    <span class="ci">Vooraf</span>
+    <div class="ct">
+      <p><strong>Laat eerst bevestigen dat de Teams-koppeling aanstaat op deze omgeving.</strong> Die koppeling moet door de beheerder zijn ingesteld en vrijgegeven. Is dat niet gebeurd, dan wordt er stil geen vergadering aangemaakt: je ziet dan gewoon geen Teams-knoppen op de presentielijst en je kunt de test niet doen. Vraag dus vooraf om een korte bevestiging dat de koppeling is getest en werkt.</p>
+      <p>Verder heb je nodig:</p>
+      <ul>
+        <li>een inlog met beheerrechten (rol Administratie of Beheerder), zodat je medewerkers, klassen, deelnemers, opleidingen en locaties kunt aanmaken;</li>
+        <li>drie Teams-accounts: één voor de docent en één voor elk van de twee deelnemers. Twee mensen die meedoen kan ook, zolang elk account apart de vergadering in gaat.</li>
+      </ul>
+      <p>Reken op ongeveer een uur, inclusief de online les zelf.</p>
+    </div>
+  </div>
+
+  <div class="callout tip">
+    <span class="ci">Let op</span>
+    <div class="ct">
+      <p><strong>In deze omgeving staat al gegevens.</strong> Je hoeft dus niet alles opnieuw te maken: staat er bijvoorbeeld al een opleiding, een locatie of een lokaal, gebruik die dan gewoon en vink de stap af. Bij zulke stappen staat een groene regel die dat aangeeft.</p>
+      <p>Twee dingen maak je wél zelf nieuw aan, ook als er al iets bestaat:</p>
+      <ul>
+        <li>de <strong>klas</strong> voor deze test, zodat je niet in een klas werkt die iemand anders gebruikt en er geen bestaande presentie door de war raakt;</li>
+        <li>de <strong>twee deelnemers</strong>, want hun e-mailadres moet horen bij de Teams-accounts waarmee jij de les in gaat. Bestaande deelnemers hebben zelden precies die adressen.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 1 -->
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">1</span>
+      <h2>Randvoorwaarden klaarzetten</h2>
+      <span class="sub">hergebruiken mag</span>
+    </div>
+    <ul class="steps">
+      <li class="step">
+        <label>
+          <input type="checkbox" data-k="s1a">
+          <div class="body">
+            <p class="title">Zorg dat er een opleiding is</p>
+            <p class="desc">Nodig voor zowel de klas als de trajecten. Zonder opleiding kun je later geen traject koppelen.</p>
+            <p class="reuse"><span>Staat er al een opleiding in de lijst? Onthoud welke je gaat gebruiken en vink deze stap af.</span></p>
+            <span class="navpath"><span class="seg menu">Administratie</span><span class="sep">&rsaquo;</span><span class="seg">Opleidingen</span><span class="sep">&rsaquo;</span><span class="seg cur">Toevoegen</span></span>
+            <div class="fields">
+              <p class="fl">Velden</p>
+              <ul><li><span class="field">Soort</span>, <span class="field">Naam</span>, <span class="field">Voortgangsrapportage</span> (aan/uit)</li></ul>
+            </div>
+          </div>
+        </label>
+      </li>
+      <li class="step">
+        <label>
+          <input type="checkbox" data-k="s1b">
+          <div class="body">
+            <p class="title">Zorg dat er een locatie is</p>
+            <p class="desc">Een lokaal hangt onder een locatie. De roosterregel vraagt straks eerst een locatie en dan een lokaal, dus die moet er eerst zijn.</p>
+            <p class="reuse"><span>Bestaat er al een locatie? Gebruik die en vink af.</span></p>
+            <span class="navpath"><span class="seg menu">Administratie</span><span class="sep">&rsaquo;</span><span class="seg">Locaties</span><span class="sep">&rsaquo;</span><span class="seg cur">Toevoegen</span></span>
+          </div>
+        </label>
+      </li>
+      <li class="step">
+        <label>
+          <input type="checkbox" data-k="s1c">
+          <div class="body">
+            <p class="title">Zorg dat er een lokaal is</p>
+            <p class="desc">Koppel het aan de locatie uit de vorige stap. De roosterregel vraagt straks verplicht om een lokaal.</p>
+            <p class="reuse"><span>Hangt er al een lokaal onder de locatie die je gebruikt? Dan ben je hier klaar.</span></p>
+            <span class="navpath"><span class="seg menu">Administratie</span><span class="sep">&rsaquo;</span><span class="seg">Lokalen</span><span class="sep">&rsaquo;</span><span class="seg cur">Toevoegen</span></span>
+            <div class="fields">
+              <p class="fl">Velden</p>
+              <ul><li><span class="field">Naam</span> (+ de locatie uit de vorige stap)</li></ul>
+            </div>
+          </div>
+        </label>
+      </li>
+    </ul>
+  </section>
+
+  <!-- 2 -->
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">2</span>
+      <h2>Docent klaarzetten</h2>
+      <span class="sub">de begeleider van de les</span>
+    </div>
+    <ul class="steps">
+      <li class="step">
+        <label>
+          <input type="checkbox" data-k="s2a">
+          <div class="body">
+            <p class="title">Zorg dat er een docent is</p>
+            <p class="desc">Een docent is een medewerker met groep <span class="field">Docent</span>. Deze persoon gebruik je straks ook als mentor van de klas en als docent op de roosterregel.</p>
+            <p class="reuse"><span>Staat er al een docent met precies het e-mailadres dat je bovenaan hebt ingevuld, dan kun je die gebruiken en deze stap afvinken. Klopt het adres niet, maak dan een nieuwe medewerker aan: dit adres bepaalt met welk Teams-account je straks de les leidt.</span></p>
+            <span class="navpath"><span class="seg menu">Administratie</span><span class="sep">&rsaquo;</span><span class="seg">Medewerkers</span><span class="sep">&rsaquo;</span><span class="seg cur">Toevoegen</span></span>
+            <div class="fields">
+              <p class="fl">Velden</p>
+              <ul>
+                <li><span class="field">Voornaam</span>, <span class="field">Achternaam</span>, <span class="field">Geslacht</span>, <span class="field">E-mail</span> = het adres dat je bovenaan bij <em>Docent</em> hebt ingevuld</li>
+                <li><span class="field">Groep</span> = "Docent"</li>
+                <li>Zet <span class="field">toegang tot de applicatie</span> aan als de docent straks zélf wil inloggen om de presentielijst te openen (stap 8). Doe je stap 8 met je eigen beheerdersaccount, dan is dit niet nodig.</li>
+              </ul>
+            </div>
+          </div>
+        </label>
+      </li>
+    </ul>
+  </section>
+
+  <!-- 3 -->
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">3</span>
+      <h2>Klas met online rooster op vandaag</h2>
+      <span class="sub">nieuw aan te maken</span>
+    </div>
+    <ul class="steps">
+      <li class="step">
+        <label>
+          <input type="checkbox" data-k="s3a">
+          <div class="body">
+            <p class="title">Open een nieuwe klas en vul de basis in</p>
+            <p class="reuse fresh"><span>Maak hier wél een nieuwe klas aan, ook als er al klassen staan. Geef hem een naam waaraan je hem terugkent, bijvoorbeeld "brugklas test". Zo laat je bestaande klassen en hun presentielijsten ongemoeid.</span></p>
+            <span class="navpath"><span class="seg menu">Administratie</span><span class="sep">&rsaquo;</span><span class="seg">Klassen</span><span class="sep">&rsaquo;</span><span class="seg cur">Nieuwe klas</span></span>
+            <div class="fields">
+              <p class="fl">Sectie Algemeen</p>
+              <ul>
+                <li><span class="field">Naam</span> = je eigen testklas-naam &middot; <span class="field">Mentor</span> = de docent uit stap 2</li>
+              </ul>
+              <p class="fl" style="margin-top:.6rem">Sectie Opleidingen</p>
+              <ul><li>Klik het potlood-icoon en koppel de opleiding uit stap 1</li></ul>
+            </div>
+          </div>
+        </label>
+      </li>
+      <li class="step">
+        <label>
+          <input type="checkbox" data-k="s3b">
+          <div class="body">
+            <p class="title">Voeg een online roosterregel toe voor vandaag</p>
+            <p class="desc">Klik in de sectie <span class="field">Rooster</span> op de plus-knop (+). Er opent een paneel <span class="ui">Rooster toevoegen</span>.</p>
+            <div class="fields">
+              <p class="fl">In het paneel</p>
+              <ul>
+                <li><span class="field">Dag</span> = de dag van de week waarop je dit doet (dus test je op maandag, kies dan maandag)</li>
+                <li><span class="field">Startdatum</span> = vandaag of eerder &middot; <span class="field">Einddatum</span> leeg</li>
+                <li><span class="field">Starttijd</span> / <span class="field">Eindtijd</span> rond "nu"</li>
+                <li><span class="field">Docent</span> = de docent uit stap 2</li>
+                <li><span class="field">Locatie</span> daarna <span class="field">Lokaal</span> (uit stap 1)</li>
+                <li>Vink <span class="ui">Lessen zijn online</span> aan</li>
+              </ul>
+            </div>
+          </div>
+        </label>
+      </li>
+      <li class="step">
+        <label>
+          <input type="checkbox" data-k="s3c">
+          <div class="body">
+            <p class="title">Sla de roosterregel en daarna de klas op</p>
+            <p class="desc">Klik <span class="ui">Opslaan</span> in het paneel, en daarna <span class="ui">Opslaan</span> rechtsboven om de klas te bewaren.</p>
+          </div>
+        </label>
+      </li>
+    </ul>
+    <div class="callout tip">
+      <span class="ci">Waarom</span>
+      <div class="ct"><p>Er valt alleen een les op vandaag als de gekozen weekdag klopt met vandaag én de startdatum niet in de toekomst ligt. Het tijdstip maakt niet uit: ook als de les volgens het rooster al voorbij is, kun je de vergadering gewoon nog in. Kies dus rustig een tijd rond nu.</p></div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">4</span>
+      <h2>Deelnemers aanmaken</h2>
+      <span class="sub">twee stuks</span>
+    </div>
+    <ul class="steps">
+      <li class="step">
+        <label>
+          <input type="checkbox" data-k="s4a">
+          <div class="body">
+            <p class="title">Maak beide deelnemers aan</p>
+            <p class="desc">Gebruik de knop <span class="ui">Nieuwe deelnemer</span> rechts op de lijstpagina. Doe dit twee keer, voor deelnemer 1 en deelnemer 2.</p>
+            <p class="reuse fresh"><span>Maak deze twee nieuw aan, ook al staat de lijst vol deelnemers. Hun e-mailadres moet namelijk exact horen bij de Teams-accounts waarmee jij straks de les in gaat. Pas dus geen bestaande deelnemer aan; die adressen heeft iemand anders om een reden ingevuld.</span></p>
+            <span class="navpath"><span class="seg menu">Administratie</span><span class="sep">&rsaquo;</span><span class="seg">Deelnemers</span><span class="sep">&rsaquo;</span><span class="seg cur">Nieuwe deelnemer</span></span>
+            <div class="fields">
+              <p class="fl">Velden</p>
+              <ul>
+                <li><span class="field">Voorletters</span>, <span class="field">Voornaam</span>, <span class="field">Achternaam</span>, <span class="field">Geslacht</span> (Man/Vrouw/Onbekend)</li>
+                <li>Sectie Contact: <span class="field">E-mailadres</span> = de adressen die je bovenaan bij <em>Deelnemer 1</em> en <em>Deelnemer 2</em> hebt ingevuld</li>
+                <li>Vul ook de overige verplichte velden (o.a. geboortedatum, verblijfstatus) en klik <span class="ui">Opslaan</span></li>
+              </ul>
+            </div>
+          </div>
+        </label>
+      </li>
+    </ul>
+    <div class="callout warn">
+      <span class="ci">Let op</span>
+      <div class="ct"><p>De e-mail is geen bijzaak: de aanwezigheid wordt op <strong>e-mailadres</strong> aan de deelnemer gekoppeld. Zorg dat het precies het adres is waarmee die persoon straks de Teams-vergadering binnenkomt. Klopt het niet, dan komt de deelname als &quot;anoniem&quot; binnen en worden de uren niet op zijn naam gezet.</p></div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">5</span>
+      <h2>Trajecten koppelen aan de klas</h2>
+      <span class="sub">per deelnemer</span>
+    </div>
+    <ul class="steps">
+      <li class="step">
+        <label>
+          <input type="checkbox" data-k="s5a">
+          <div class="body">
+            <p class="title">Maak per deelnemer een traject en kies je testklas</p>
+            <p class="desc">Open de deelnemer en klik in de zijbalk op <span class="ui">Traject aanmaken</span>.</p>
+            <span class="navpath"><span class="seg menu">Administratie</span><span class="sep">&rsaquo;</span><span class="seg">Deelnemers</span><span class="sep">&rsaquo;</span><span class="seg">deelnemer</span><span class="sep">&rsaquo;</span><span class="seg cur">Traject aanmaken</span></span>
+            <div class="fields">
+              <p class="fl">Velden</p>
+              <ul>
+                <li>Kies <span class="field">Opleiding</span> (verplicht) &mdash; hierdoor vult de klas-keuze</li>
+                <li>Kies <span class="field">Klas</span> = de testklas uit stap 3</li>
+                <li>Sectie Intake: <span class="field">Aanmelding</span> (datum) en <span class="field">Start traject</span> = vandaag of eerder (verplicht zodra er een klas is gekozen)</li>
+                <li>Klik <span class="ui">Opslaan</span></li>
+              </ul>
+            </div>
+          </div>
+        </label>
+      </li>
+    </ul>
+    <div class="callout warn">
+      <span class="ci">Cruciaal</span>
+      <div class="ct"><p>Zonder lopend traject in deze klas komt er <strong>geen presentielijst en geen Teams-vergadering</strong>. Zorg dus dat beide trajecten klaarstaan voordat je stap 6 doet.</p></div>
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">6</span>
+      <h2>Presentielijst en vergadering laten aanmaken</h2>
+      <span class="sub">het zetje</span>
+    </div>
+    <ul class="steps">
+      <li class="step">
+        <label>
+          <input type="checkbox" data-k="s6a">
+          <div class="body">
+            <p class="title">Geef het systeem een zetje via de klas</p>
+            <p class="desc">Van de klas alléén komt nog geen presentielijst. Omdat je de trajecten pas ná de klas hebt gemaakt, moet je het systeem nu even aanzetten:</p>
+            <span class="navpath"><span class="seg menu">Administratie</span><span class="sep">&rsaquo;</span><span class="seg">Klassen</span><span class="sep">&rsaquo;</span><span class="seg cur">open je testklas</span></span>
+            <div class="fields">
+              <p class="fl">Kies één van beide</p>
+              <ul>
+                <li>Open de klas om te bewerken en klik nog een keer op <span class="ui">Opslaan</span>. Bij een bestaande klas worden dan de presentielijsten klaargezet.</li>
+                <li>Of gebruik in het klasscherm de actie <span class="ui">Valideer presentie</span> en kies vandaag als datum.</li>
+              </ul>
+            </div>
+          </div>
+        </label>
+      </li>
+      <li class="step">
+        <label>
+          <input type="checkbox" data-k="s6b">
+          <div class="body">
+            <p class="title">Controleer dat de vergadering er is</p>
+            <p class="desc">Open de presentielijst van vandaag (zie stap 8). Staat er een online les met een Teams-meeting, dan zie je onderin de knoppen <span class="ui">Teams Aanwezigheid</span> en <span class="ui">Open Teams Meeting</span>. Ontbreken die knoppen, dan is er geen vergadering aangemaakt. Ga dan niet verder zoeken in de schermen, maar meld het bij de beheerder: vrijwel altijd staat de Teams-koppeling dan nog niet goed aan.</p>
+          </div>
+        </label>
+      </li>
+    </ul>
+    <div class="callout warn">
+      <span class="ci">Verwachting</span>
+      <div class="ct"><p>Er gaat <strong>geen uitnodiging per mail</strong> uit, en er verschijnt niets in iemands agenda. Dat hoort zo. De deelnemers staan wél op de vergadering; de link haal je op met de knop <span class="ui">Open Teams Meeting</span> op de presentielijst en die deel je zelf met de deelnemers. Wacht dus niet op een mail.</p>
+      <p>Buiten deze test om worden de presentielijsten elke nacht automatisch klaargezet, dus in de dagelijkse praktijk hoeft niemand hier iets voor te doen.</p></div>
+    </div>
+  </section>
+
+  <!-- 7 -->
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">7</span>
+      <h2>De online les houden</h2>
+      <span class="sub">deelnemen met verschil in duur</span>
+    </div>
+    <ul class="steps">
+      <li class="step">
+        <label>
+          <input type="checkbox" data-k="s7a">
+          <div class="body">
+            <p class="title">Join met beide deelnemers, met verschillende aanwezigheidsduur</p>
+            <p class="desc">Open de vergaderlink (via <span class="ui">Open Teams Meeting</span>) en ga er met beide deelnemers-accounts in, elk in een eigen venster of op een eigen apparaat. Laat de één duidelijk langer aanwezig blijven dan de ander, zodat je straks kunt zien dat de percentages verschillen. Schrijf op hoe lang ieder ongeveer aanwezig was; dat vergelijk je later met wat het systeem laat zien.</p>
+          </div>
+        </label>
+      </li>
+      <li class="step">
+        <label>
+          <input type="checkbox" data-k="s7b">
+          <div class="body">
+            <p class="title">Extra: laat iemand tussentijds weggaan en terugkomen</p>
+            <p class="desc">Laat één deelnemer de vergadering verlaten en na een korte pauze weer binnenkomen. Zijn beide stukken tijd horen straks bij elkaar opgeteld te zijn, niet als los rijtje in het overzicht te staan.</p>
+          </div>
+        </label>
+      </li>
+      <li class="step">
+        <label>
+          <input type="checkbox" data-k="s7c">
+          <div class="body">
+            <p class="title">Sluit de vergadering en wacht een paar minuten</p>
+            <p class="desc">Teams geeft de aanwezigheid pas door als de vergadering voorbij is, meestal een paar minuten nadat iedereen eruit is. Kijk je eerder, dan lijkt het alsof er niets is bijgehouden.</p>
+          </div>
+        </label>
+      </li>
+    </ul>
+    <div class="callout tip">
+      <span class="ci">Weten</span>
+      <div class="ct"><p>De docent begeleidt de vergadering en komt <strong>bewust niet</strong> in de aanwezigheidslijst te staan. Dat is dus geen fout: alleen de deelnemers horen in de presentie. Zie je de docent er straks toch tussen staan, meld dat dan.</p></div>
+    </div>
+  </section>
+
+  <!-- 8 -->
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">8</span>
+      <h2>Presentielijst controleren en goedkeuren</h2>
+      <span class="sub">als docent of administratie</span>
+    </div>
+    <ul class="steps">
+      <li class="step">
+        <label>
+          <input type="checkbox" data-k="s8a">
+          <div class="body">
+            <p class="title">Open de presentielijst van vandaag</p>
+            <p class="desc">Klik de klas en daarna <span class="ui">Presentie invullen</span>. De lijst opent op de eerstvolgende openstaande les; navigeer met de pijltjes of de kalender naar vandaag.</p>
+            <span class="navpath"><span class="seg menu">Docent</span><span class="sep">&rsaquo;</span><span class="seg">Mijn klassen</span></span>
+            <span class="navpath"><span class="seg menu">Scholing</span><span class="sep">&rsaquo;</span><span class="seg">Presenties</span><span class="sep">&rsaquo;</span><span class="seg cur">kies de klas</span></span>
+            <p class="desc">Bij het openen worden de aanwezige uren al automatisch vooringevuld op basis van Teams (gekoppeld op e-mail).</p>
+          </div>
+        </label>
+      </li>
+      <li class="step">
+        <label>
+          <input type="checkbox" data-k="s8b">
+          <div class="body">
+            <p class="title">Bekijk het Teams-aanwezigheidsoverzicht</p>
+            <p class="desc">Klik onderin op <span class="ui">Teams Aanwezigheid</span>. Je ziet per deelnemer de naam, het e-mailadres, hoeveel minuten hij aanwezig was, welk deel van de les dat is, en de uren die daaruit volgen. Wie minder dan 75% van de les aanwezig was, krijgt de melding <span class="ui">Onder drempelwaarde</span>. Kwam er iemand binnen met een adres dat niet bij een deelnemer hoort, dan staat die onderaan als anoniem.</p>
+          </div>
+        </label>
+      </li>
+      <li class="step">
+        <label>
+          <input type="checkbox" data-k="s8c">
+          <div class="body">
+            <p class="title">Keur goed</p>
+            <p class="desc">Pas eventueel de aanwezige uren aan en klik <span class="ui">Controleren &amp; Goedkeuren</span>. Wijk je af van de Teams-waarde, dan is een opmerking verplicht. Daarna staat de status op <span class="ui">Teams Goedgekeurd</span>.</p>
+          </div>
+        </label>
+      </li>
+      <li class="step">
+        <label>
+          <input type="checkbox" data-k="s8d">
+          <div class="body">
+            <p class="title">Dien in en controleer het overzicht</p>
+            <p class="desc">Rond af met <span class="ui">Dien presentielijst in</span>. Voor het maandbeeld: <span class="ui">Download maand presentielijst</span> op hetzelfde scherm.</p>
+          </div>
+        </label>
+      </li>
+    </ul>
+    <div class="callout tip">
+      <span class="ci">Daarna</span>
+      <div class="ct"><p>Laat de klas, de deelnemers en de trajecten die je hebt gemaakt gewoon staan; die zijn handig als er nog iets nagekeken moet worden. Geef bij het doorgeven van je bevindingen wel de naam van je testklas mee, dan is duidelijk welke gegevens van de test zijn en wat er later weg kan.</p></div>
+    </div>
+  </section>
+
+  <hr class="soft">
+
+  <!-- Verification -->
+  <section>
+    <div class="sec-head">
+      <span class="sec-num" style="background:var(--ok)">&check;</span>
+      <h2>Verificatie</h2>
+      <span class="sub">is de test geslaagd?</span>
+    </div>
+    <div class="verify">
+      <ul>
+        <li><input type="checkbox" data-k="v1"><label>Op de presentielijst van vandaag staan de knoppen <span class="ui">Teams Aanwezigheid</span> en <span class="ui">Open Teams Meeting</span>.</label></li>
+        <li><input type="checkbox" data-k="v2"><label>Beide deelnemers staan in het aanwezigheidsoverzicht, met hun naam en e-mailadres.</label></li>
+        <li><input type="checkbox" data-k="v3"><label>De docent staat <em>niet</em> in de presentie.</label></li>
+        <li><input type="checkbox" data-k="v4"><label>De uren verschillen tussen de twee deelnemers en komen overeen met wat je zelf had opgeschreven.</label></li>
+        <li><input type="checkbox" data-k="v5"><label>De melding <span class="ui">Onder drempelwaarde</span> staat bij de deelnemer die het kortst aanwezig was, en klopt.</label></li>
+        <li><input type="checkbox" data-k="v6"><label>Extra: bij de deelnemer die tussentijds wegging en terugkwam, is de tijd bij elkaar opgeteld.</label></li>
+        <li><input type="checkbox" data-k="v7"><label>Na goedkeuren staat de status op <span class="ui">Teams Goedgekeurd</span> en verschijnen de uren in het maandoverzicht.</label></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Pitfalls -->
+  <section>
+    <div class="sec-head">
+      <span class="sec-num" style="background:var(--danger)">!</span>
+      <h2>Valkuilen</h2>
+      <span class="sub">waar het misgaat</span>
+    </div>
+    <div class="pit">
+      <div class="item"><span class="pn">01</span><p class="pt"><strong>De Teams-koppeling staat niet aan</strong>Er wordt dan zonder melding geen vergadering aangemaakt en je ziet geen Teams-knoppen op de presentielijst. Dit is de meest voorkomende reden dat de test niet lukt. Laat de beheerder dit vooraf bevestigen.</p></div>
+      <div class="item"><span class="pn">02</span><p class="pt"><strong>De klas alleen aanmaken is niet genoeg</strong>Van een nieuwe klas komt nog geen presentielijst. Sla de klas nog een keer op (of gebruik "Valideer presentie") nadat je de trajecten hebt gemaakt.</p></div>
+      <div class="item"><span class="pn">03</span><p class="pt"><strong>Ander e-mailadres in Teams</strong>Komt iemand de vergadering binnen met een ander adres dan bij de deelnemer staat, dan telt hij mee als "anoniem" en worden zijn uren niet op zijn naam gezet. Dit gaat vooral mis als je een bestaande deelnemer uit de lijst hebt gepakt in plaats van er zelf twee aan te maken.</p></div>
+      <div class="item"><span class="pn">04</span><p class="pt"><strong>Geen traject, geen lijst</strong>Heeft een deelnemer geen lopend traject in deze klas op die datum, dan komt er geen presentielijst. Maak de trajecten dus vóór stap 6.</p></div>
+      <div class="item"><span class="pn">05</span><p class="pt"><strong>Verkeerde dag in het rooster</strong>Staat er in de roosterregel een andere weekdag dan die van vandaag, dan is er vandaag simpelweg geen les en dus ook geen presentielijst.</p></div>
+      <div class="item"><span class="pn">06</span><p class="pt"><strong>Te snel gekeken</strong>Teams levert de aanwezigheid pas na de vergadering aan. Kijk een paar minuten nadat iedereen eruit is; eerder is de lijst nog leeg.</p></div>
+    </div>
+  </section>
+
+  <hr class="soft">
+
+  <!-- Reporting -->
+  <section>
+    <div class="sec-head">
+      <span class="sec-num" style="background:var(--muted)">&#9636;</span>
+      <h2>Iets gevonden?</h2>
+      <span class="sub">wat je erbij vermeldt</span>
+    </div>
+    <p class="lead" style="font-size:.95rem">Loopt een stap anders dan hier beschreven, ga dan gewoon door met de rest en geef het achteraf door. Met deze gegevens erbij is het meestal direct te achterhalen:</p>
+    <div class="cov-notes">
+      <ul>
+        <li><strong>Bij welke stap</strong> het misging (het nummer uit dit draaiboek is genoeg).</li>
+        <li><strong>Wat je verwachtte</strong> en <strong>wat je zag</strong>, in je eigen woorden.</li>
+        <li><strong>Datum en tijd</strong> van de les, en de <strong>naam van de klas</strong>.</li>
+        <li>Bij verschillen in uren: <strong>wat je zelf had opgeschreven</strong> versus wat het systeem toont.</li>
+        <li>Een <strong>schermafbeelding</strong> van het scherm waar het opvalt. Op Windows: <em>Windows-toets + Shift + S</em>.</li>
+      </ul>
+    </div>
+  </section>
+
+  <p class="foot">Testdraaiboek &middot; online les via Teams &middot; vink af terwijl je werkt (je voortgang blijft in deze browser bewaard).</p>
+
+</div>
+
+<script>
+  (function () {
+    var boxes = Array.prototype.slice.call(document.querySelectorAll('input[type="checkbox"][data-k]'));
+    var KEY = 'teams-draaiboek-v2';
+
+    function load() {
+      try {
+        var raw = localStorage.getItem(KEY);
+        return raw ? JSON.parse(raw) : {};
+      } catch (e) { return {}; }
+    }
+    function save(state) {
+      try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
+    }
+
+    var state = load();
+
+    function reflect(box) {
+      var step = box.closest('.step') || box.closest('li');
+      if (step) { step.classList.toggle('done', box.checked); }
+    }
+
+    function updateProgress() {
+      var total = boxes.length;
+      var done = boxes.filter(function (b) { return b.checked; }).length;
+      var pct = total ? Math.round(done / total * 100) : 0;
+      var fill = document.getElementById('barfill');
+      var label = document.getElementById('pct');
+      if (fill) { fill.style.width = pct + '%'; }
+      if (label) { label.textContent = pct + '%'; }
+    }
+
+    boxes.forEach(function (box) {
+      var k = box.getAttribute('data-k');
+      if (state[k]) { box.checked = true; }
+      reflect(box);
+      box.addEventListener('change', function () {
+        state[k] = box.checked;
+        save(state);
+        reflect(box);
+        updateProgress();
+      });
+    });
+
+    updateProgress();
+
+    var fields = Array.prototype.slice.call(document.querySelectorAll('input[type="text"][data-f]'));
+    fields.forEach(function (input) {
+      var k = 'f:' + input.getAttribute('data-f');
+      if (typeof state[k] === 'string') { input.value = state[k]; }
+      input.addEventListener('input', function () {
+        state[k] = input.value;
+        save(state);
+      });
+    });
+  })();
+
+  (function () {
+    var TKEY = 'teams-draaiboek-theme';
+    var root = document.documentElement;
+    var btn = document.getElementById('theme-toggle');
+    var icon = document.getElementById('theme-icon');
+    var label = document.getElementById('theme-label');
+    var order = ['system', 'light', 'dark'];
+    var labels = { system: 'Systeem', light: 'Licht', dark: 'Donker' };
+    var icons = { system: '◐', light: '☀', dark: '☾' };
+
+    function read() {
+      try { return localStorage.getItem(TKEY) || 'system'; } catch (e) { return 'system'; }
+    }
+    function apply(mode) {
+      if (mode === 'system') { root.removeAttribute('data-theme'); }
+      else { root.setAttribute('data-theme', mode); }
+      if (icon) { icon.textContent = icons[mode]; }
+      if (label) { label.textContent = labels[mode]; }
+    }
+
+    var current = read();
+    apply(current);
+
+    if (btn) {
+      btn.addEventListener('click', function () {
+        current = order[(order.indexOf(current) + 1) % order.length];
+        try { localStorage.setItem(TKEY, current); } catch (e) {}
+        apply(current);
+      });
+    }
+  })();
+</script>
+</body>
+</html>
